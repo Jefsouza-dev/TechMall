@@ -1,8 +1,13 @@
 # **Getting Started with Vite**
 
 
+## TechMall
+Tech product e-commerce, with features to search by product or sort by prices. Clicking on the product opens a product details page and contains the functionality to add and remove from the cart.
 
-## Prerequisites
+Link to deploy: ----- 
+
+
+## How to run the project.
 
 Before you begin, make sure you have Node.js and npm installed on your system. If you haven't already, follow the instructions at [Node.js](https://nodejs.org/) to install.
 
