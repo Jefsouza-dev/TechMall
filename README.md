@@ -4,7 +4,7 @@
 ## TechMall
 Tech product e-commerce, with features to search by product or sort by prices. Clicking on the product opens a product details page and contains the functionality to add and remove from the cart.
 
-Link to deploy: ----- 
+Link to deploy: https://tech-mall-two.vercel.app/
 
 
 ## How to run the project.
