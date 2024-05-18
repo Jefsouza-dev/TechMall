@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import EmptyCart from "../../components/EmptyCart";
 import EachProductOrder from "../../components/EachProductOrder";
 import { useNavigate } from "react-router-dom";
@@ -13,6 +13,13 @@ const Cart = () => {
     setCart([]);
     navigate("/thanks");
   };
+
+  useEffect(() => {
+    const cartItem = localStorage.getItem("cart");
+    if (cartItem) {
+      setCart(JSON.parse(cartItem));
+    }
+  }, []);
 
   return (
     <div className="w-full max-w-7xl mx-auto">

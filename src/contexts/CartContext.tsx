@@ -36,50 +36,26 @@ function CartProvider({ children }: { children: ReactNode }) {
   const [total, setTotal] = useState("");
 
   function addItemCart(newItem: IProduct) {
-    // Se não encontrar, retorna -1
-    const indexItem = cart.findIndex((item) => item.id === newItem.id);
+    const existingItemIndex = cart.findIndex((item) => item.id === newItem.id);
 
-    if (indexItem !== -1) {
-      let cartList = cart;
+    if (existingItemIndex !== -1) {
+      const updatedCart = [...cart];
+      updatedCart[existingItemIndex].amount += 1;
+      updatedCart[existingItemIndex].total += newItem.price;
 
-      cartList[indexItem].amount = cartList[indexItem].amount + 1;
-      cartList[indexItem].total =
-        cartList[indexItem].amount * cartList[indexItem].price;
+      setCart(updatedCart);
+      localStorage.setItem("cart", JSON.stringify(updatedCart));
+    } else {
+      const updatedCart = [
+        ...cart,
+        { ...newItem, amount: 1, total: newItem.price },
+      ];
 
-      setCart(cartList);
-      totalResult(cartList);
-
-      return;
+      setCart(updatedCart);
+      localStorage.setItem("cart", JSON.stringify(updatedCart));
     }
 
-    let data = {
-      ...newItem,
-      amount: 1,
-      total: newItem.price,
-    };
-
-    setCart((previousProduct) => [...previousProduct, data]);
-    totalResult([...cart, data]);
-  }
-
-  function removeItemCart(product: ICartProps) {
-    const indexItem = cart.findIndex((item) => item.id === product.id);
-
-    if (cart[indexItem]?.amount > 1) {
-      let cartList = cart;
-
-      cartList[indexItem].amount = cartList[indexItem].amount - 1;
-      cartList[indexItem].total =
-        cartList[indexItem].total - cartList[indexItem].price;
-
-      setCart(cartList);
-      totalResult(cartList);
-      return;
-    }
-
-    const removeItem = cart.filter((item) => item.id !== product.id);
-    setCart(removeItem);
-    totalResult(removeItem);
+    totalResult(cart); // Chama totalResult após a atualização do carrinho
   }
 
   function totalResult(items: ICartProps[]) {
@@ -91,6 +67,25 @@ function CartProvider({ children }: { children: ReactNode }) {
     let resultFormated = formatedPrice(result);
 
     setTotal(resultFormated);
+  }
+
+  function removeItemCart(product: ICartProps) {
+    const existingItemIndex = cart.findIndex((item) => item.id === product.id);
+
+    if (existingItemIndex !== -1) {
+      const updatedCart = [...cart];
+      updatedCart[existingItemIndex].amount -= 1;
+      updatedCart[existingItemIndex].total -= product.price;
+
+      if (updatedCart[existingItemIndex].amount === 0) {
+        updatedCart.splice(existingItemIndex, 1); // Remover o item se a quantidade for zero
+      }
+
+      setCart(updatedCart);
+      localStorage.setItem("cart", JSON.stringify(updatedCart));
+    }
+
+    totalResult(cart); // Chama totalResult após a atualização do carrinho
   }
 
   return (
