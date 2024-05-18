@@ -10,7 +10,7 @@ const Card = (product: IProduct) => {
 
   const { addItemCart } = useContext(CartContext);
 
-  const handleAddCartItem = (product: IProduct) => {
+  const handleAddCartItem = (product: any) => {
     addItemCart(product);
   };
 

@@ -5,7 +5,6 @@ import {
   Dispatch,
   SetStateAction,
 } from "react";
-import IProduct from "../interfaces/products";
 import { formatedPrice } from "../services/formatedPrice";
 
 interface ICartProps {
@@ -24,7 +23,7 @@ interface IcartContext {
   cart: ICartProps[];
   setCart: Dispatch<SetStateAction<ICartProps[]>>;
   cartAmount: number;
-  addItemCart: (newItem: IProduct) => void;
+  addItemCart: (newItem: ICartProps) => void;
   removeItemCart: (product: ICartProps) => void;
   total: string;
 }
@@ -35,7 +34,7 @@ function CartProvider({ children }: { children: ReactNode }) {
   const [cart, setCart] = useState<ICartProps[]>([]);
   const [total, setTotal] = useState("");
 
-  function addItemCart(newItem: IProduct) {
+  function addItemCart(newItem: ICartProps) {
     const existingItemIndex = cart.findIndex((item) => item.id === newItem.id);
 
     if (existingItemIndex !== -1) {
@@ -59,13 +58,8 @@ function CartProvider({ children }: { children: ReactNode }) {
   }
 
   function totalResult(items: ICartProps[]) {
-    let myCart = items;
-    let result = myCart.reduce((acc, obj) => {
-      return acc + obj.total;
-    }, 0);
-
+    let result = items.reduce((acc, obj) => acc + obj.total, 0);
     let resultFormated = formatedPrice(result);
-
     setTotal(resultFormated);
   }
 

@@ -1,16 +1,20 @@
 import { formatedPrice } from "../../services/formatedPrice";
-import IProduct from "../../interfaces/products";
 
 interface ICartProps {
+  id: number;
+  title: string;
+  description: string;
   price: number;
   cover: string;
   amount: number;
   total: number;
+  shortTitle: string;
+  inclusionDate: Date;
 }
 
 interface IEachProductOrderProps {
   item: ICartProps;
-  addItemCart: (newItem: IProduct) => void;
+  addItemCart: (newItem: ICartProps) => void;
   removeItemCart: (product: ICartProps) => void;
 }
 
@@ -23,7 +27,7 @@ const EachProductOrder = ({
 
   return (
     <section className="flex items-center justify-between border-b-2 border-gray-300 flex-col gap-4 mb-12 sm:mb-6 sm:flex-row m-10">
-      <img className="w-28" src={cover} />
+      <img className="w-28" src={cover} alt={item.title} />
 
       <strong>{formatedPrice(price)}</strong>
 
