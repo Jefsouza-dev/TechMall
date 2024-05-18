@@ -1,9 +1,8 @@
 import { useContext } from "react";
 import EmptyCart from "../../components/EmptyCart";
+import EachProductOrder from "../../components/EachProductOrder";
 import { useNavigate } from "react-router-dom";
 import { CartContext } from "../../contexts/CartContext";
-
-import { formatedPrice } from "../../services/formatedPrice";
 
 const Cart = () => {
   const navigate = useNavigate();
@@ -21,38 +20,14 @@ const Cart = () => {
 
       {cart.length === 0 && <EmptyCart />}
 
-      {cart.map((item) => {
-        return (
-          <section
-            key={item.id}
-            className="flex items-center justify-between border-b-2 border-gray-300 flex-col gap-4 mb-12 sm:mb-6 sm:flex-row m-10"
-          >
-            <img className="w-28" src={item.cover} />
-
-            <strong>{formatedPrice(item.price)}</strong>
-
-            <div className="flex items-center justify-center gap-3">
-              <button
-                onClick={() => removeItemCart(item)}
-                className="bg-slate-600 px-2 rounded text-white font-medium flex items-center justify-center"
-              >
-                -
-              </button>
-              {item.amount}
-              <button
-                onClick={() => addItemCart(item)}
-                className="bg-slate-600 px-2 rounded text-white font-medium flex items-center justify-center"
-              >
-                +
-              </button>
-            </div>
-
-            <strong className="float-right mb-2">
-              SubTotal: {formatedPrice(item.total)}
-            </strong>
-          </section>
-        );
-      })}
+      {cart.map((item) => (
+        <EachProductOrder
+          key={item.id}
+          item={item}
+          removeItemCart={removeItemCart}
+          addItemCart={addItemCart}
+        />
+      ))}
 
       {cart.length > 0 && (
         <div className="flex flex-col items-center mx-10 sm:flex-row sm:justify-between ">
